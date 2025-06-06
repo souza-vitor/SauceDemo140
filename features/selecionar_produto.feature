@@ -22,6 +22,6 @@ Feature: Selecionar Produto
         | 3  |               | secret_sauce  | Epic sadface: Username is required                                        |
         | 4  | juca          | secret_sauce  | Epic sadface: Username and password do not match any user in this service |
         | 5  | juca          | laranja       | Epic sadface: Username and password do not match any user in this service |
-        | 6  | juca          |               | Epic sadface: Password is Password                                        |
+        | 6  | juca          |               | Epic sadface: Password is required                                        |
         | 7  |               |               | Epic sadface: Username is required                                        |
         | 8  |               | laranja       | Epic sadface: Username is required                                        |
