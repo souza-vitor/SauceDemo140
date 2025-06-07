@@ -7,7 +7,7 @@ import time
 @given(u'que acesso o site Sauce Demo')
 def step_impl(context):
     # Setup / Inicialização
-    context.driver = webdriver.Chrome()         #instanciar o obj do Selenium WebDriver especializado para o Chrome
+    context.driver = webdriver.Edge()         #instanciar o obj do Selenium WebDriver especializado para o Chrome
     context.driver.maximize_window()            #maximizar a janela do navegador
     context.driver.implicitly_wait(10)          # esperar até 10 segundos por qualquer elemento
     # Passo em si
@@ -62,5 +62,40 @@ def step_impl(context):
 def step_impl(context, mensagem):
     assert context.driver.find_element(By.CSS_SELECTOR, "h3").text == mensagem
 
+    # teardown / encerramento
+    context.driver.quit()
+
+
+# cenario checagem de compra
+
+@when(u'sou direcionado para pagina Home')
+def step_impl(context):
+    assert context.driver.find_element(By.CSS_SELECTOR, ".title").text == "Products"
+
+
+@when(u'seleciono o produto Sauce Labs Backpack e clico no carrinho')
+def step_impl(context):
+    assert context.driver.find_element(By.ID, "item_4_title_link").text == "Sauce Labs Backpack" # confirma se está escrito Sauce Labs Backpack no elemento
+    assert context.driver.find_element(By.ID, "add-to-cart-sauce-labs-backpack").text == "Add to cart" # confirma se é o botão correto para adicionar a mochila no carrinho
+    context.driver.find_element(By.ID, "add-to-cart-sauce-labs-backpack").click()
+    context.driver.find_element(By.CSS_SELECTOR, ".shopping_cart_link").click()
+
+@then(u'sou direcionado para a pagina Your Cart')
+def step_impl(context):
+    assert context.driver.find_element(By.CSS_SELECTOR, ".title").text == "Your Cart"
+
+
+@then(u'vejo o produto Sauce Labs Backpack com quantidade 1 e preço $29.99')
+def step_impl(context):
+     assert context.driver.find_element(By.CSS_SELECTOR, ".inventory_item_name").text == "Sauce Labs Backpack"
+     assert context.driver.find_element(By.CSS_SELECTOR, ".cart_quantity").text == "1"
+     assert context.driver.find_element(By.CSS_SELECTOR, ".inventory_item_price").text == "$29.99"
+
+@then(u'faço o logout')
+def step_impl(context):
+    context.driver.find_element(By.ID, "remove-sauce-labs-backpack").click() #remove o item
+    context.driver.find_element(By.ID, "react-burger-menu-btn").click() # clica no menu
+    context.driver.find_element(By.ID, "logout_sidebar_link").click() # faz o logout
+    
     # teardown / encerramento
     context.driver.quit()
